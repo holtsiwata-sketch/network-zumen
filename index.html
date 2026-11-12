@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LAN配線系統図エディタ</title>
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+<header id="toolbar">
+  <div class="brand">LAN配線系統図</div>
+  <input id="docTitle" class="title-input" placeholder="図面名">
+  <div class="tb-group">
+    <button data-act="new" title="新規">新規</button>
+    <button data-act="open" title="JSONファイルを開く">開く</button>
+    <button data-act="save" title="JSONで保存">保存</button>
+    <button data-act="sample" title="サンプル: 3階建て事務所">サンプル</button>
+  </div>
+  <div class="tb-group tb-undo">
+    <button data-act="undo" title="元に戻す (Ctrl+Z)">↶</button>
+    <button data-act="redo" title="やり直し (Ctrl+Y)">↷</button>
+  </div>
+  <div class="tb-group">
+    <button data-act="fit" title="全体表示">全体</button>
+    <button data-act="zoomin" title="拡大">＋</button>
+    <button data-act="zoomout" title="縮小">－</button>
+  </div>
+  <div class="tb-group">
+    <label class="chk"><input type="checkbox" id="showLabel" checked>識別子</label>
+    <label class="chk"><input type="checkbox" id="showCable" checked>ケーブル</label>
+    <label class="chk"><input type="checkbox" id="showRoom" checked>室名</label>
+  </div>
+  <div class="tb-group mobile-only">
+    <button data-act="bottom" title="配線表などの表を表示/非表示">表</button>
+    <button data-act="side" title="図面設定・チェック結果">設定・チェック<span id="warnBadge" class="badge"></span></button>
+  </div>
+  <div class="tb-group right">
+    <button data-act="svg">SVG出力</button>
+    <button data-act="png">PNG出力</button>
+    <button data-act="xlsx" title="配線表・ポート集計・数量表・チェック結果を Excel(.xlsx)で出力">Excel出力</button>
+    <button data-act="csv" title="配線表をCSVで出力">CSV</button>
+    <button data-act="print">印刷</button>
+  </div>
+  <input type="file" id="fileInput" accept=".json,application/json" hidden>
+</header>
+
+<main id="layout">
+  <aside id="palette" aria-label="部品"></aside>
+
+  <section id="center">
+    <div id="canvasWrap">
+      <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
+        <g id="viewport"><g id="world"></g><g id="overlay"></g></g>
+      </svg>
+      <div id="hint"></div>
+      <div id="actbar" role="toolbar" aria-label="選択中の操作"></div>
+    </div>
+    <div id="bottom">
+      <nav class="tabs">
+        <button data-tab="table" class="on">配線表</button>
+        <button data-tab="ports">ポート・PoE集計</button>
+        <button data-tab="qty">数量表</button>
+        <button data-tab="legend">図記号・線種</button>
+      </nav>
+      <div id="tab-table" class="tabpane on"></div>
+      <div id="tab-ports" class="tabpane"></div>
+      <div id="tab-qty" class="tabpane"></div>
+      <div id="tab-legend" class="tabpane"></div>
+    </div>
+  </section>
+
+  <aside id="side">
+    <button id="sideClose" class="mobile-only">閉じる ✕</button>
+    <div id="props"></div>
+    <div id="warnings"></div>
+  </aside>
+</main>
+
+<div id="print"></div>
+
+<script src="js/lib.js?v=6"></script>
+<script src="js/xlsx.js?v=6"></script>
+<script src="js/sample.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
+</body>
+</html>
